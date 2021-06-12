@@ -20,6 +20,24 @@ class Dice extends React.Component<Props, State> {
 
   private diceRollTimer = 0;
 
+  componentDidMount() {
+    this.startDiceRoll();
+    setTimeout(() => {
+      this.setState({
+        roll: false,
+      });
+      this.stopDiceRoll();
+    }, 3000);
+  }
+
+  render() {
+    return <div style={containerStyle}>
+      <div style={foundationStyle}>
+        {this.state.face}
+      </div>
+    </div>
+  }
+
   private getDiceFace() {
     const index = Math.floor(Math.random() * faces.length);
     return faces[index];
@@ -36,25 +54,6 @@ class Dice extends React.Component<Props, State> {
   private stopDiceRoll() {
     clearInterval(this.diceRollTimer);
     this.diceRollTimer = 0;
-  }
-
-  constructor(props: Props) {
-    super(props);
-    this.startDiceRoll();
-    setTimeout(() => {
-      this.setState({
-        roll: false,
-      });
-      this.stopDiceRoll();
-    }, 3000);
-  }
-
-  render() {
-    return <div style={containerStyle}>
-      <div style={foundationStyle}>
-        {this.state.face}
-      </div>
-    </div>
   }
 }
 
