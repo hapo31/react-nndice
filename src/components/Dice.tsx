@@ -2,11 +2,12 @@ import React from "react";
 import { CSSProperties } from "react";
 
 type Props = {
+  roll: boolean;
+  onStop: (face: string) => void;
 };
 
 type State = {
   face: string;
-  roll: boolean;
 };
 
 const faces = "おうまちんこ".split("");
@@ -14,20 +15,19 @@ const faces = "おうまちんこ".split("");
 class Dice extends React.Component<Props, State> {
 
   state = {
-    face: "う",
-    roll: true
+    face: this.getDiceFace()
   };
 
   private diceRollTimer = 0;
 
-  componentDidMount() {
-    this.startDiceRoll();
-    setTimeout(() => {
-      this.setState({
-        roll: false,
-      });
-      this.stopDiceRoll();
-    }, 3000);
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.roll && !prevProps.roll) {
+      this.startDiceRoll();
+      setTimeout(() => {
+        this.stopDiceRoll();
+        this.props.onStop(this.state.face);
+      }, 3000);
+    }
   }
 
   render() {
