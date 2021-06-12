@@ -6,13 +6,48 @@ type Props = {
 
 type State = {
   face: string;
+  roll: boolean;
 };
+
+const faces = "おうまちんこ".split("");
 
 class Dice extends React.Component<Props, State> {
 
   state = {
-    face: "う"
+    face: "う",
+    roll: true
   };
+
+  private diceRollTimer = 0;
+
+  private getDiceFace() {
+    const index = Math.floor(Math.random() * faces.length);
+    return faces[index];
+  }
+
+  private startDiceRoll ()  {
+    this.diceRollTimer = window.setInterval(() => {
+      this.setState({
+        face: this.getDiceFace()
+      });
+    }, 100);
+  }
+
+  private stopDiceRoll() {
+    clearInterval(this.diceRollTimer);
+    this.diceRollTimer = 0;
+  }
+
+  constructor(props: Props) {
+    super(props);
+    this.startDiceRoll();
+    setTimeout(() => {
+      this.setState({
+        roll: false,
+      });
+      this.stopDiceRoll();
+    }, 3000);
+  }
 
   render() {
     return <div style={containerStyle}>
