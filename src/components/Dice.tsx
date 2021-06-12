@@ -1,11 +1,23 @@
 import React from "react";
 import { CSSProperties } from "react";
 
-class Dice extends React.Component {
+type Props = {
+};
+
+type State = {
+  face: string;
+};
+
+class Dice extends React.Component<Props, State> {
+
+  state = {
+    face: "う"
+  };
+
   render() {
     return <div style={containerStyle}>
       <div style={foundationStyle}>
-        う
+        {this.state.face}
       </div>
     </div>
   }
